@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import React from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -15,8 +16,11 @@ function App() {
 
   const [NewList, setNewList] = useState('');
 
-  const [ListArr, setListArr] = useState([])
+  const [ListArr, setListArr] = useState([]);
 
+  const [mainCheckbox, setMainCheckbox] = useState(false)
+
+  const [sort, setSort] = useState('All')
 
   const addList = (event) => {
     if (event.key == 'Enter') {
@@ -24,17 +28,54 @@ function App() {
       let item = {
         id: Math.floor(Math.random() * 1000),
         item: NewList,
-      }
-      setListArr(oldList => [...oldList, item])
-      setNewList('')
-    }
-  }
+        status: mainCheckbox
 
+      }
+      if (NewList.length > 0) {
+        setListArr(oldList => [item, ...oldList])
+      }
+      setNewList('')
+      setMainCheckbox(false)
+    }
+
+
+  }
   const deleteItem = (id) => {
     const newArr = ListArr.filter(list => list.id != id);
     setListArr(newArr)
   }
-  console.log(ListArr);
+
+  const check = (id) => {
+    let clone = [...ListArr]
+    let result = clone.findIndex(list => list.id === id)
+    clone[result].status = !clone[result].status
+    setListArr(clone)
+  }
+
+  const buttonsCheck = (meaning) => {
+    setSort(meaning)
+  }
+
+  const active = () => {
+    buttonsCheck('Active');
+    let activefilt = ListArr.filter(list => list.status == mainCheckbox)
+    return setListArr(activefilt)
+  }
+
+  const all = () => {
+    buttonsCheck('All');
+    console.log(ListArr);
+    return ListArr
+  }
+
+  const complated = () => {
+    buttonsCheck('Complated');
+    let complatedfilt = ListArr.filter(list => list.status == !mainCheckbox)
+    return setListArr(complatedfilt)
+  }
+
+
+
   return (
     <>
       <div className={`container`} style={DarkMode === 'light' ? { backgroundColor: '#171823' } : { backgroundColor: '#FAFAFA' }} >
@@ -47,20 +88,28 @@ function App() {
         <main>
           <form onKeyDown={addList} >
             <div className='addInput' style={DarkMode === 'light' ? { backgroundColor: '#25273D' } : { backgroundColor: '#FFF' }} >
-              <input type='checkbox' name="checkbox" id="box" />
-              <input id='inp' type="text" placeholder='Create a new todo…' style={DarkMode === 'light' ? { color: '#767992' } : { color: "#9495A5" }} value={NewList} onChange={ev => setNewList(ev.target.value)} />
+              <input type='checkbox' name="checkbox" id='box' style={DarkMode === 'light' ? { backgroundColor: '#25273D' } : { backgroundColor: '#FFF' }}
+                onChange={() => setMainCheckbox(!mainCheckbox)} checked={mainCheckbox} />
+              <input id='inp' type="text" placeholder='Create a new todo…' style={DarkMode === 'light' ? { color: '#767992' } : { color: "#9495A5" }}
+                value={NewList} onChange={ev => setNewList(ev.target.value)} />
             </div>
             <div className='lists' style={DarkMode === 'light' ? { backgroundColor: '#25273D' } : { backgroundColor: '#FFF' }} >
               {ListArr.map(list => {
                 return (
-                  <div className='list' key={list.id}>
-                    <input type='checkbox' name="checkbox" id="box" />
-                    <p style={DarkMode === 'light' ? { color: '#C8CBE7' } : { color: '#494C6B' }} key={list.id} >{list.item}</p>
-                    <img className='delete' src="src/assets/icon-cross.svg" alt="" onClick={() => deleteItem(list.id)} />
-                  </div>
+                  <React.StrictMode key={list.id}>
+                    <div className='list' >
+                      <input type='checkbox' name="checkbox" id='box' style={DarkMode === 'light' ? { backgroundColor: '#25273D' } : { backgroundColor: '#FFF' }}
+                        checked={list.status} onChange={() => check(list.id)}
+                      />
+                      <p style={DarkMode === 'light' ? { color: '#C8CBE7' } : { color: '#494C6B' }} key={list.id} >{list.item}</p>
+                      <img className='delete' src="src/assets/icon-cross.svg" alt="" onClick={() => deleteItem(list.id)} />
+                    </div>
+                    <div className='line' style={DarkMode === 'light' ? { backgroundColor: '#393A4B' } : { backgroundColor: '#E3E4F1' }} ></div>
+                  </React.StrictMode>
                 )
+
+
               })}
-              <div className='line' style={DarkMode === 'light' ? { backgroundColor: '#393A4B' } : { backgroundColor: '#E3E4F1' }} ></div>
               <div className='itemsleft' style={DarkMode === 'light' ? { backgroundColor: '#25273D', color: '#9495A5' } : { backgroundColor: '#FFF', color: '#5B5E7E' }}>
                 <p >{ListArr.length} items left</p>
                 <p>Clear Completed</p>
@@ -68,9 +117,9 @@ function App() {
             </div>
           </form>
           <div className='itemsleft funcional' style={DarkMode === 'light' ? { backgroundColor: '#25273D', color: '#9495A5' } : { backgroundColor: '#FFF', color: '#5B5E7E' }}>
-            <p>All</p>
-            <p>Active</p>
-            <p>Complated</p>
+            <p className={sort === 'All' ? 'btncheck' : ''} onClick={(e) => all()}>All</p>
+            <p className={sort === 'Active' ? 'btncheck' : ''} onClick={(e) => active()}>Active</p>
+            <p className={sort === 'Complated' ? 'btncheck' : ''} onClick={(e) => complated()}>Complated</p>
           </div>
         </main >
       </div >
@@ -79,3 +128,6 @@ function App() {
 }
 
 export default App
+
+
+

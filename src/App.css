@@ -75,9 +75,9 @@ nav {
 
 #box {
   position: relative;
-  height: 20px;
+  height: 15px;
   width: 15px;
-  z-index: 1;
+  z-index: 0;
   border-radius: 50%;
 }
 
@@ -87,15 +87,14 @@ nav {
   width: 20px;
   border-radius: 50%;
   border: 1px solid #D1D2DA;
-  background-color: transparent;
+  background-color: inherit;
   position: absolute;
   left: -3px;
-  top: -1px;
+  top: -3px;
   z-index: 3;
 }
 
 #box::after {
-  content: url(./assets/icon-check.svg);
   height: 22px;
   width: 22px;
   border-radius: 50%;
@@ -107,11 +106,19 @@ nav {
   background: linear-gradient(to right, #C058F3, #55DDFF);
   position: absolute;
   z-index: 5;
+
 }
 
 #box:checked::after {
   display: flex;
+  content: url(./assets/icon-check.svg);
 }
+
+#box:checked+p {
+  text-decoration: line-through;
+  color: #4D5067 !important;
+}
+
 
 .lists {
   width: 100%;
@@ -162,11 +169,24 @@ nav {
   padding: 16px 0px 16px 0px;
 }
 
+.itemsleft p {
+  cursor: pointer;
+}
+
+/* .itemsleft p:active {
+  color: blue;
+} */
+
 .funcional {
   justify-content: center;
   gap: 20px;
   margin-top: 1rem;
   border-radius: 5px;
   padding: 16px 20px 16px 20px;
+
+}
+
+.btncheck {
+  color: #3A7CFD;
 
 }

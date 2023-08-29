@@ -82,21 +82,23 @@ nav {
     }
 
     #box {
-        height: 21px;
-        width: 21px;
+        height: 17px;
+        width: 17px;
     }
 
     #box::before {
         height: 24px;
         width: 24px;
-        top: -2px;
+        top: -5px;
+        left: -5px;
 
     }
 
     #box::after {
         height: 26px;
         width: 26px;
-        top: -2px;
+        top: -5px;
+        left: -5px;
 
     }
 
