@@ -56,25 +56,13 @@ function App() {
     setSort(meaning)
   }
 
-  const active = () => {
-    buttonsCheck('Active');
-    let activefilt = ListArr.filter(list => list.status == mainCheckbox)
-    return setListArr(activefilt)
+  const actives = ListArr.filter(list => !list.status)
+  const complated = ListArr.filter(list => list.status)
+  const data = sort === 'Active' ? actives : (sort === 'Complated' ? complated : ListArr)
+
+  function clearComplated() {
+    return setListArr(ListArr.filter(list => !list.status))
   }
-
-  const all = () => {
-    buttonsCheck('All');
-    console.log(ListArr);
-    return ListArr
-  }
-
-  const complated = () => {
-    buttonsCheck('Complated');
-    let complatedfilt = ListArr.filter(list => list.status == !mainCheckbox)
-    return setListArr(complatedfilt)
-  }
-
-
 
   return (
     <>
@@ -94,7 +82,7 @@ function App() {
                 value={NewList} onChange={ev => setNewList(ev.target.value)} />
             </div>
             <div className='lists' style={DarkMode === 'light' ? { backgroundColor: '#25273D' } : { backgroundColor: '#FFF' }} >
-              {ListArr.map(list => {
+              {data.map(list => {
                 return (
                   <React.StrictMode key={list.id}>
                     <div className='list' >
@@ -111,15 +99,15 @@ function App() {
 
               })}
               <div className='itemsleft' style={DarkMode === 'light' ? { backgroundColor: '#25273D', color: '#9495A5' } : { backgroundColor: '#FFF', color: '#5B5E7E' }}>
-                <p >{ListArr.length} items left</p>
-                <p>Clear Completed</p>
+                <p >{actives.length} items left</p>
+                <p onClick={clearComplated}>Clear Completed</p>
               </div>
             </div>
           </form>
           <div className='itemsleft funcional' style={DarkMode === 'light' ? { backgroundColor: '#25273D', color: '#9495A5' } : { backgroundColor: '#FFF', color: '#5B5E7E' }}>
-            <p className={sort === 'All' ? 'btncheck' : ''} onClick={(e) => all()}>All</p>
-            <p className={sort === 'Active' ? 'btncheck' : ''} onClick={(e) => active()}>Active</p>
-            <p className={sort === 'Complated' ? 'btncheck' : ''} onClick={(e) => complated()}>Complated</p>
+            <p className={sort === 'All' ? 'btncheck' : ''} onClick={() => setSort('All')}>All</p>
+            <p className={sort === 'Active' ? 'btncheck' : ''} onClick={() => setSort('Active')}>Active</p>
+            <p className={sort === 'Complated' ? 'btncheck' : ''} onClick={() => { setSort('Complated') }}>Complated</p>
           </div>
         </main >
       </div >
@@ -131,3 +119,6 @@ export default App
 
 
 
+{/* <p className={sort === 'All' ? 'btncheck' : ''} onClick={(e) => setListArr(all)}>All</p>
+            <p className={sort === 'Active' ? 'btncheck' : ''} onClick={(e) => setListArr(active)}>Active</p>
+            <p className={sort === 'Complated' ? 'btncheck' : ''} onClick={(e) => setListArr(complated)}>Complated</p> */}
