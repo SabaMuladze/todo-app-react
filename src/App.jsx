@@ -4,6 +4,10 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import './components/Header.css'
+import Sun from './assets/icon-sun.svg'
+import Moon from './assets/icon-moon.svg'
+import Remove from './assets/icon-cross.svg'
+
 // import Listfunc from './components/ListFunc'
 
 function App() {
@@ -70,7 +74,7 @@ function App() {
         <header className={`${DarkMode === 'light' ? 'dark' : 'light'}`}>
           <nav>
             <h1 className='logo'>TODO</h1>
-            <button onClick={changeHandler}><img src={`${DarkMode === 'dark' ? "src/assets/icon-moon.svg" : 'src/assets/icon-sun.svg'}`} alt="" /></button>
+            <button onClick={changeHandler}><img src={DarkMode === 'light' ? Sun : Moon} alt="" /></button>
           </nav>
         </header>
         <main>
@@ -90,7 +94,7 @@ function App() {
                         checked={list.status} onChange={() => check(list.id)}
                       />
                       <p style={DarkMode === 'light' ? { color: '#C8CBE7' } : { color: '#494C6B' }} key={list.id} >{list.item}</p>
-                      <img className='delete' src="src/assets/icon-cross.svg" alt="" onClick={() => deleteItem(list.id)} />
+                      <img className='delete' src={Remove} alt="" onClick={() => deleteItem(list.id)} />
                     </div>
                     <div className='line' style={DarkMode === 'light' ? { backgroundColor: '#393A4B' } : { backgroundColor: '#E3E4F1' }} ></div>
                   </React.StrictMode>
