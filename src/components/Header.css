@@ -65,6 +65,8 @@ nav {
 
     .addInput {
         padding: 19px 24px;
+        gap: 24px;
+
     }
 
     .addInput input {
@@ -112,14 +114,25 @@ nav {
     .funcional {
         justify-content: center;
         gap: 20px;
-        margin-top: 1rem;
         border-radius: 5px;
-        padding: 16px 20px 16px 20px;
+        padding: 13px 20px 13px 20px;
         width: 200px;
         margin: auto;
-        margin-top: -55px;
+        margin-top: -50px;
         position: relative;
         right: 20px;
     }
 
+    .list {
+        gap: 24px;
+        padding: 12px 0;
+    }
+
+    .list p {
+        height: 40px;
+    }
+
+    .lists {
+        padding: 0px 24px;
+    }
 }
